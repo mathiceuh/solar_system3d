@@ -14,6 +14,7 @@
         // TEXTURE
         const textureLoader = new THREE.TextureLoader();
         const sunTexture = textureLoader.load('texture/sunTexture.jpg');
+        const earthTexture = textureLoader.load('texture/earthTexture.jpeg');
 
         // SCENE
         const scene = new THREE.Scene();
@@ -27,21 +28,36 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // Sphere 
+        // Sun 
         const sun_geometry = new THREE.SphereGeometry(1,32,32);
         const sun_material = new THREE.MeshBasicMaterial({ 
             map: sunTexture, 
             wireframe: false });
         const sun = new THREE.Mesh(sun_geometry, sun_material);
         scene.add(sun);
+        
+        // Earth
+        const earth_geometry= new THREE.SphereGeometry(0.5,32,32);
+        const earth_material= new THREE.MeshBasicMaterial({ 
+            map: earthTexture, 
+            wireframe: false });
+        const earth = new THREE.Mesh(earth_geometry, earth_material);
+        earth.position.x = 3;
+        scene.add(earth);
 
+        // PIVOT
+        const pivot = new THREE.Group();
+        scene.add(pivot);
+        pivot.add(earth);
+        
         // ANIMATION
         function animate() {
             requestAnimationFrame(animate);
             
             // ROTATION
-            sun.rotation.x += 0.01;
-            sun.rotation.y += 0.01;
+            sun.rotation.y += 0.005; 
+            earth.rotation.y += 0.02; 
+            pivot.rotation.y += 0.002; 
             
             renderer.render(scene, camera);
         }
