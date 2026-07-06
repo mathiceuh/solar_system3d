@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mon Système Solaire 3D</title>
+    <style>
+        body { margin: 0; overflow: hidden; } /* On enlève les marges */
+    </style>
+    <!-- On charge la bibliothèque Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+    <script>
+        // 1. LA SCÈNE : Le "monde" en 3D
+        const scene = new THREE.Scene();
+
+        // 2. LA CAMÉRA : Pour regarder le monde
+        // (Champ de vision, ratio d'aspect, plan proche, plan lointain)
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5; // On recule la caméra pour voir le centre
+
+        // 3. LE MOTEUR (Renderer) : Le pinceau qui dessine sur l'écran
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Petit test : on crée un cube pour voir si ça marche
+        const geometry = new THREE.SphereGeometry();
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // 4. LA BOUCLE D'ANIMATION : Ce qui tourne en continu
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // On fait tourner le cube un peu
+            sphere.rotation.x += 0.01;
+            sphere.rotation.y += 0.01;
+            
+            renderer.render(scene, camera);
+        }
+
+        animate(); // On lance la boucle
+    </script>
+</body>
+</html>
