@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>Mon Système Solaire 3D</title>
     <style>
-        body { margin: 0; overflow: hidden; } /* On enlève les marges */
+        body { margin: 0; overflow: hidden; } 
     </style>
-    <!-- On charge la bibliothèque Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -14,13 +13,14 @@
     <script>
         // TEXTURE
         const textureLoader = new THREE.TextureLoader();
+        const sunTexture = textureLoader.load('texture/sunTexture.jpg');
 
         // SCENE
         const scene = new THREE.Scene();
 
         // CAMERA
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5; // On recule la caméra pour voir le centre
+        camera.position.z = 5; 
 
         // RENDERER
         const renderer = new THREE.WebGLRenderer();
@@ -28,18 +28,20 @@
         document.body.appendChild(renderer.domElement);
 
         // Sphere 
-        const geometry = new THREE.SphereGeometry(1,32,32);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
+        const sun_geometry = new THREE.SphereGeometry(1,32,32);
+        const sun_material = new THREE.MeshBasicMaterial({ 
+            map: sunTexture, 
+            wireframe: false });
+        const sun = new THREE.Mesh(sun_geometry, sun_material);
+        scene.add(sun);
 
         // ANIMATION
         function animate() {
             requestAnimationFrame(animate);
             
             // ROTATION
-            sphere.rotation.x += 0.01;
-            sphere.rotation.y += 0.01;
+            sun.rotation.x += 0.01;
+            sun.rotation.y += 0.01;
             
             renderer.render(scene, camera);
         }
